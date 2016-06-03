@@ -22,8 +22,8 @@ class NewVisitorTest(unittest.TestCase):
 
 #Bad thought that he should enter a to-do item right now
         inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertEqual(inputbox.get_attribut('placeholder'),
-                        'Enter a To-Do item')
+        self.assertEqual(inputbox.get_attribute('placeholder'),
+                        'Enter a to-do item')
 #He types "Continue with Node.js"
         inputbox.send_keys('Continue with Node.js')
 # after entering enter, the page is being refreshed and
@@ -32,7 +32,8 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Continue with Node.js' for row in rows)
+            any(row.text == '1: Continue with Node.js' for row in rows),
+            "New to-do item did not appear in table"
         )
 
 #That's cool, so bad decide to add another one:
