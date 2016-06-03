@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import unittest
 
 class NewVisitorTest(unittest.TestCase):
@@ -15,18 +16,28 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.get('http://localhost:8000')
 
         self.assertIn('To-Do',self.browser.title)
-        self.fail('Finish the test')
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', header_text)
+        
 
 #Bad thought that he should enter a to-do item right now
-
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(inputbox.get_attribut('placeholder'),
+                        'Enter a To-Do item')
 #He types "Continue with Node.js"
-
-# after entering enter, the page is being refreshed and 
+        inputbox.send_keys('Continue with Node.js')
+# after entering enter, the page is being refreshed and
+        inputbox.send_keys(Keys.ENTER)
 #the new item is being shown.
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == '1: Continue with Node.js' for row in rows)
+        )
 
 #That's cool, so bad decide to add another one:
 #This time he chooses "Go go go with Golang but don't forget
-# the python¡s goat!"
+# the python's goat!"
 
 #another update of the page and it's now showing both items.
 
@@ -36,6 +47,7 @@ class NewVisitorTest(unittest.TestCase):
 #Indeed, visiting this URL show me my to-do list.
 
 #satisfied, Bad decides to go back to it's python's goat.
-
+        self.fail('Finish the test')
 if __name__ == '__main__':
-    unittest.main(warnings='ignore')
+    #unittest.main(warnings='ignore')
+    unittest.main()
