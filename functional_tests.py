@@ -31,12 +31,10 @@ class NewVisitorTest(unittest.TestCase):
 #the new item is being shown.
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Continue with Node.js' for row in rows),
-            "New to-do item did not appear in table"
-        )
-
+        self.assertIn('1: Continue with Node.js', [row.text for row in rows])
+        
 #That's cool, so bad decide to add another one:
+        self.assertIn("2: Go Golang", [row.text for row in rows])
 #This time he chooses "Go go go with Golang but don't forget
 # the python's goat!"
 
